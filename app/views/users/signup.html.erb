@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="../../favicon.ico">
+
+    <title>Register</title>
+  
+    <%= stylesheet_link_tag    'bootstrap/css/bootstrap.min.css', media: 'all', 'data-turbolinks-track' => true %>
+    <%= stylesheet_link_tag    'bootstrap/css/ie10-viewport-bug-workaround.css', media: 'all', 'data-turbolinks-track' => true %>
+    <%= stylesheet_link_tag    'signup.css', media: 'all', 'data-turbolinks-track' => true %>
+    
+    <%= javascript_include_tag 'bootstrap/js/ie-emulation-modes-warning.js', 'data-turbolinks-track' => true %>
+  </head>
+
+  <body>
+
+    <div class="container">
+      <%= form_for @user, url: {action: "signup"}, :html => {class: "form-signin"} do |item| %>
+        <h2 class="form-signin-heading">Please register an account</h2>
+        <% if @user.errors.size > 0 %>
+        <div class="panel panel-danger notice notice-danger"  >
+            <div class="panel-body text-danger">
+                <ul>
+                    <% @user.errors.messages.each do |key, i| %>
+                        <li><span id="helpBlock" class="text-danger"><%= key.capitalize %>: <%= @user.errors.get(key).to_s %></span></li>
+                    <% end %>
+                </ul>
+            </div>
+        </div>
+        <% end %>
+        <%= item.label :first_name, class: "sr-only", for: "input-firstname" %>
+        <%= item.text_field :first_name, class: "form-control", id: "input-firstname", placeholder: "First name", required: "required", autofocus: true  %>
+        <%= item.label :last_name, class: "sr-only", for: "input-lastname" %>
+        <%= item.text_field :last_name, class: "form-control", id: "input-lastname", placeholder: "Last name", required: "required", autofocus: false  %>
+        <%= item.label :email, class: "sr-only", for: "input-email" %>
+        <%= item.text_field :email, class: "form-control", id: "input-email", placeholder: "Email address", required: "required", autofocus: false  %>
+        <%= item.label :password, class: "sr-only", for: "input-password" %>
+        <%= item.password_field :password, class: "form-control", id: "input-password", placeholder: "Password", required: "required", autofocus: false  %>
+        <%= item.submit "Signup", class: "btn btn-lg btn-primary btn-block" %>
+      <% end %>
+
+    </div> <!-- /container -->
+
+
+    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+    <%= javascript_include_tag 'bootstrap/js/ie10-viewport-bug-workaround.js', 'data-turbolinks-track' => true %>
+  </body>
+</html>

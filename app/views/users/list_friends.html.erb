@@ -1,0 +1,59 @@
+<!--Projects Row -->
+<div class="row">
+     <div class="header">
+    <h3 class="text-muted prj-name">
+        <span class="fa fa-users fa-2x principal-title"></span>
+        Friend zone
+    </h3>
+  </div>
+
+
+  <div class="jumbotron list-content">
+    <ul class="list-group">
+      <li href="#" class="list-group-item title">
+        Your friend zone
+      </li>
+      <% @users.each do |item| %>
+      <li href="#" class="list-group-item text-left">
+        <img class="img-thumbnail" src="http://bootdey.com/img/Content/User_for_snippets.png">
+        <label class="name">
+            <%= item.first_name %><br>
+        </label>
+        <label class="pull-right">            
+            <% if current_user %>
+                <% if item.get_invite_by_frient_id(session[:user_id]) == 1 %>
+                    <a class="btn btn-danger btn-xs glyphicon glyphicon-trash remove-friend" data-url="<%= remove_friend_path() %>" data-id="<%= item.id%>" href="#" title="Remove friend"></a>
+                <% else %>
+                    <a class="btn btn-success btn-xs glyphicon glyphicon-saved add-friend" data-url="<%= add_friend_path() %>" data-id="<%= item.id%>" href="#" title="Add friend"></a>
+                <% end %>
+            <% else %>
+                <a class="btn btn-success btn-xs glyphicon glyphicon-saved" href="<%= signin_path() %>" title="Add friend"></a>
+            <% end %>
+            <% if current_user %>
+            <a class="btn btn-warning  btn-xs glyphicon glyphicon-heart add-favorite" data-url="<%= add_friend_favorite_path()%>" data-id="<%= item.id %>" href="#" title="Favorite"></a>
+            <% else %>
+            <a class="btn btn-success btn-xs glyphicon glyphicon-heart" href="<%= signin_path() %>" title="Favorite"></a>
+            <% end %>
+
+            <!-- <a class="btn btn-danger  btn-xs glyphicon glyphicon-upload invite-friend" href="#" data-url="<%= invite_path() %>" data-id="<%= item.id%>" title="Invite"></a>
+            <a class="btn btn-info  btn-xs glyphicon glyphicon glyphicon-comment" href="#" title="Send message"></a> -->
+        </label>
+        <div class="break"></div>
+      </li>
+      <% end %>
+        <!-- Pagination -->      
+      <li href="#" class="list-group-item text-center">
+        <%= will_paginate @users, renderer: BootstrapPagination::Rails %>
+      </li>
+      <!-- <li href="#" class="list-group-item text-left">
+        <a class="btn btn-block btn-primary">
+            <i class="glyphicon glyphicon-refresh"></i>
+            Load more...
+        </a>
+      </li> -->
+    </ul>
+  </div>
+</div>
+<!-- /.row -->
+<hr>
+<!-- /.row

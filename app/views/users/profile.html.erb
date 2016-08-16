@@ -1,0 +1,233 @@
+<div class="col-lg-12 col-sm-12">
+  <div class="card hovercard">
+    <div class="card-background">
+      <img class="card-bkimg" alt="" src="/avatar.jpeg">
+      <!-- http://lorempixel.com/850/280/people/9/ -->
+    </div>
+    <div class="useravatar">
+      <img alt="" src="/avatar.jpeg">
+    </div>
+    <div class="card-info"> <span class="card-title"><%= @user.first_name %></span>
+  </div>
+</div>
+<div class="btn-pref btn-group btn-group-justified btn-group-lg" role="group" aria-label="...">
+  <div class="btn-group" role="group">
+    <button type="button" id="stars" class="btn btn-primary" href="#tab1" data-toggle="tab"><span class="glyphicon glyphicon-star" aria-hidden="true"></span>
+    <div class="hidden-xs">Profile</div>
+    </button>
+  </div>
+  <% if session[:user_id] != nil %>
+  <div class="btn-group" role="group">
+    <button type="button" id="stars" class="btn btn-default" href="#tab2" data-toggle="tab"><span class="glyphicon glyphicon-fire" aria-hidden="true"></span>
+    <div class="hidden-xs">Friends</div>
+    </button>
+  </div>
+  <% if session[:user_id].to_i == params[:id].to_i %>
+  <div class="btn-group" role="group">
+    <button type="button" id="stars" class="btn btn-default" href="#tab3" data-toggle="tab"><span class="glyphicon glyphicon-circle-arrow-down" aria-hidden="true"></span>
+    <div class="hidden-xs">Friends request</div>
+    </button>
+  </div>
+  <% end %>
+  <div class="btn-group" role="group">
+    <button type="button" id="favorites" class="btn btn-default" href="#tab4" data-toggle="tab"><span class="glyphicon glyphicon-heart" aria-hidden="true"></span>
+    <div class="hidden-xs">Favorites</div>
+    </button>
+  </div>
+  <% end %>
+</div>
+<div class="well">
+  <div class="tab-content">
+    <div class="tab-pane fade in active" id="tab1">
+      <div class="row">
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 toppad" >
+          <div class="panel panel-info">
+            <div class="panel-heading">
+              <h3 class="panel-title"><%= @user.fullname %></h3>
+            </div>
+            <div class="panel-body">
+              <div class="row">
+                <div class="col-md-3 col-lg-3 " align="center"> <img alt="User Pic" src="http://babyinfoforyou.com/wp-content/uploads/2014/10/avatar-300x300.png" class="img-circle img-responsive"> </div>
+                <div class=" col-md-9 col-lg-9 ">
+                  <table class="table table-user-information">
+                    <tbody>
+                      <tr>
+                        <td>First name:</td>
+                        <td><%= @user.first_name %></td>
+                      </tr>
+                      <tr>
+                        <td>Last name:</td>
+                        <td><%= @user.last_name %></td>
+                      </tr>
+                      <tr>
+                        <td>Address: </td>
+                        <td><%= @user.address %></td>
+                      </tr>
+                      <tr>
+                        <td>Phone</td>
+                        <td><%= @user.phone %></td>
+                      </tr>
+                      <tr>
+                        <td>Email</td>
+                        <td><a href="mailto:<%= @user.email %>"><%= @user.email %></a></td>
+                      </tr>
+                      <tr>
+                        <td>Points: </td>
+                        <td><%= @user.points %></td>
+                      </tr>
+                    </tbody>
+                  </table>
+                  
+                  <!-- <a href="#" class="btn btn-primary">My Sales Performance</a>
+                  <a href="#" class="btn btn-primary">Team Sales Performance</a> -->
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <% if session[:user_id] != nil %>
+    <div class="tab-pane fade in" id="tab2">
+      <div class="jumbotron list-content">
+        <ul class="list-group">
+          <% @friends.each do |object| %>
+            <% item = object.user_friend%>
+          <li href="#" class="list-group-item text-left">
+            <img class="img-thumbnail" src="http://bootdey.com/img/Content/User_for_snippets.png">
+            <label class="name">
+                <%= item.first_name %><br>
+            </label>
+            <label class="pull-right">            
+                <% if current_user %>
+                    <% if item.get_invite_by_frient_id(session[:user_id]) == 1 %>
+                        <a class="btn btn-danger btn-xs glyphicon glyphicon-trash remove-friend" data-url="<%= remove_friend_path() %>" data-id="<%= item.id%>" href="#" title="Remove friend"></a>
+                    <% else %>
+                        <a class="btn btn-success btn-xs glyphicon glyphicon-saved add-friend" data-url="<%= add_friend_path() %>" data-id="<%= item.id%>" href="#" title="Add friend"></a>
+                    <% end %>
+                <% else %>
+                <a class="btn btn-success btn-xs glyphicon glyphicon-saved" href="<%= signin_path() %>" title="Add friend"></a>
+                <% end %>
+                <% if current_user %>
+                <a class="btn btn-warning  btn-xs glyphicon glyphicon-heart add-favorite" data-url="<%= add_friend_favorite_path()%>" data-id="<%= item.id %>" href="#" title="Favorite"></a>
+                <% else %>
+                <a class="btn btn-success btn-xs glyphicon glyphicon-heart" href="<%= signin_path() %>" title="Favorite"></a>
+                <% end %>
+
+                <a class="btn btn-danger  btn-xs glyphicon glyphicon-trash" href="#" title="Delete"></a>
+                <a class="btn btn-info  btn-xs glyphicon glyphicon glyphicon-comment" href="#" title="Send message"></a>
+            </label>
+            <div class="break"></div>
+          </li>
+          <% end %>
+            <!-- Pagination -->      
+          <li href="#" class="list-group-item text-center">
+            
+          </li>
+          <!-- <li href="#" class="list-group-item text-left">
+            <a class="btn btn-block btn-primary">
+                <i class="glyphicon glyphicon-refresh"></i>
+                Load more...
+            </a>
+          </li> -->
+        </ul>
+      </div>
+    </div>
+    <% if session[:user_id].to_i == params[:id].to_i %>
+    <div class="tab-pane fade in" id="tab3">
+      <div class="jumbotron list-content">
+        <ul class="list-group">
+          <% @friendsRequest.each do |object| %>
+            <% item = object.user%>
+          <li href="#" class="list-group-item text-left">
+            <img class="img-thumbnail" src="http://bootdey.com/img/Content/User_for_snippets.png">
+            <label class="name">
+                <%= item.first_name %><br>
+            </label>
+            <label class="pull-right">            
+                <% if current_user %>
+                    <% if item.get_invite_by_frient_id(session[:user_id]) == 1 %>
+                        <a class="btn btn-danger btn-xs glyphicon glyphicon-trash remove-friend" data-url="<%= remove_friend_path() %>" data-id="<%= item.id%>" href="#" title="Remove friend"></a>
+                    <% else %>
+                        <a class="btn btn-success btn-xs glyphicon glyphicon-saved add-friend" data-url="<%= add_friend_path() %>" data-id="<%= item.id%>" href="#" title="Add friend"></a>
+                    <% end %>
+                <% else %>
+                <a class="btn btn-success btn-xs glyphicon glyphicon-saved" href="<%= signin_path() %>" title="Add friend"></a>
+                <% end %>
+                <% if current_user %>
+                <a class="btn btn-warning  btn-xs glyphicon glyphicon-heart add-favorite" data-url="<%= add_friend_favorite_path()%>" data-id="<%= item.id %>" href="#" title="Favorite"></a>
+                <% else %>
+                <a class="btn btn-success btn-xs glyphicon glyphicon-heart" href="<%= signin_path() %>" title="Favorite"></a>
+                <% end %>
+
+                <a class="btn btn-danger  btn-xs glyphicon glyphicon-trash" href="#" title="Delete"></a>
+                <a class="btn btn-info  btn-xs glyphicon glyphicon glyphicon-comment" href="#" title="Send message"></a>
+            </label>
+            <div class="break"></div>
+          </li>
+          <% end %>
+            <!-- Pagination -->      
+          <li href="#" class="list-group-item text-center">
+            
+          </li>
+          <!-- <li href="#" class="list-group-item text-left">
+            <a class="btn btn-block btn-primary">
+                <i class="glyphicon glyphicon-refresh"></i>
+                Load more...
+            </a>
+          </li> -->
+        </ul>
+      </div>
+    </div>
+    <% end %>
+    <div class="tab-pane fade in" id="tab4">
+      <div class="jumbotron list-content">
+        <ul class="list-group">
+          <% @favorites.each do |object| %>
+            <% item = object.user_friend%>
+          <li href="#" class="list-group-item text-left">
+            <img class="img-thumbnail" src="http://bootdey.com/img/Content/User_for_snippets.png">
+            <label class="name">
+                <%= item.first_name %><br>
+            </label>
+            <label class="pull-right">            
+                <% if current_user %>
+                    <% if item.get_invite_by_frient_id(session[:user_id]) == 1 %>
+                        <a class="btn btn-danger btn-xs glyphicon glyphicon-trash remove-friend" data-url="<%= remove_friend_path() %>" data-id="<%= item.id%>" href="#" title="Remove friend"></a>
+                    <% else %>
+                        <a class="btn btn-success btn-xs glyphicon glyphicon-saved add-friend" data-url="<%= add_friend_path() %>" data-id="<%= item.id%>" href="#" title="Add friend"></a>
+                    <% end %>
+                <% else %>
+                <a class="btn btn-success btn-xs glyphicon glyphicon-saved" href="<%= signin_path() %>" title="Add friend"></a>
+                <% end %>
+                <% if current_user %>
+                <a class="btn btn-warning  btn-xs glyphicon glyphicon-heart add-favorite" data-url="<%= add_friend_favorite_path()%>" data-id="<%= item.id %>" href="#" title="Favorite"></a>
+                <% else %>
+                <a class="btn btn-success btn-xs glyphicon glyphicon-heart" href="<%= signin_path() %>" title="Favorite"></a>
+                <% end %>
+
+                <a class="btn btn-danger  btn-xs glyphicon glyphicon-trash" href="#" title="Delete"></a>
+                <a class="btn btn-info  btn-xs glyphicon glyphicon glyphicon-comment" href="#" title="Send message"></a>
+            </label>
+            <div class="break"></div>
+          </li>
+          <% end %>
+            <!-- Pagination -->      
+          <li href="#" class="list-group-item text-center">
+            
+          </li>
+          <!-- <li href="#" class="list-group-item text-left">
+            <a class="btn btn-block btn-primary">
+                <i class="glyphicon glyphicon-refresh"></i>
+                Load more...
+            </a>
+          </li> -->
+        </ul>
+      </div>
+    </div>
+
+    <% end %>
+  </div>
+</div>
+
+</div>
