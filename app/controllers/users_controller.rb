@@ -164,7 +164,7 @@ class UsersController < ApplicationController
 		if params[:id]
 			@user = User.find(params[:id])
 			if session[:user_id] != nil
-				@friends = Friend.where('user_id = ? AND is_accept = ?',params[:id], 1)
+				@friends = Friend.where('(user_id = ? AND is_accept = ?) OR (user_friend_id = ? AND is_accept =?)',params[:id], 1,params[:id], 1)
 				# render :json => @friends
 				# return
 				if session[:user_id].to_i == params[:id].to_i
