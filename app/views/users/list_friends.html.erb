@@ -7,43 +7,99 @@
     </h3>
   </div>
 
-
+  
   <div class="jumbotron list-content">
+    <div class="row" style="margin: 10px 0px;">
+      <div class="col-sm-10">
+          <form class="form-inline" id="frmSearch">
+              <div class="form-group">
+                  <label for="input-type">Search by: </label>
+                  <select class="form-control" name="type" id="input-type">
+                      <option value="name" <%= params[:type] == "name" ? 'selected="selected"' : '' %> >Name</option>
+                      <option value="price" <%= params[:type] == "address" ? 'selected="selected"' : '' %> >Address</option>
+                      <option value="content" <%= params[:type] == "phone" ? 'selected="selected"' : '' %> >Phone</option>
+                      <option value="content" <%= params[:type] == "email" ? 'selected="selected"' : '' %> >Email</option>
+                  </select>
+              </div>
+              <div class="form-group">
+                  <label for="input-keyword">Keyword</label>
+                  <input type="text" name="keyword" class="form-control" id="input-keyword" placeholder="Tu khoa" value="<%= params[:keyword] %>">
+              </div>
+              <input type="hidden" name="sort" value="first_name">
+              <input type="hidden" name="order" value="desc">
+              <button type="submit" class="btn btn-default">Search</button>
+          </form>
+      </div>
+      <div class="col-sm-2">
+          <div class="dropdown">
+              <button class="btn btn-default dropdown-toggle glyphicon glyphicon-sort" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+              Sap xep
+              <span class="caret"></span>
+              </button>
+              <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+                  <li><a href="#" class="sort-order" data-sort="name" data-order="desc">Name DESC</a></li>
+                  <li><a href="#" class="sort-order" data-sort="name" data-order="asc">Name ASC</a></li>
+                  <li role="separator" class="divider"></li>
+                  <li><a href="#" class="sort-order" data-sort="created_at" data-order="desc">Created DESC</a></li>
+                  <li><a href="#" class="sort-order" data-sort="created_at" data-order="asc">Created ASC</a></li>
+                  <li role="separator" class="divider"></li>
+                  <li><a href="#" class="sort-order" data-sort="friends" data-order="desc">Friends DESC</a></li>
+                  <li><a href="#" class="sort-order" data-sort="firends" data-order="asc">Firends ASC</a></li>
+                  <li role="separator" class="divider"></li>
+                  <li><a href="#" class="sort-order" data-sort="favorites" data-order="desc">Favorites DESC</a></li>
+                  <li><a href="#" class="sort-order" data-sort="favorites" data-order="asc">Favorites ASC</a></li>
+              </ul>
+          </div>
+      </div>
+  </div>
     <ul class="list-group">
       <li href="#" class="list-group-item title">
         Your friend zone
       </li>
-      <% @users.each do |item| %>
-      <li href="#" class="list-group-item text-left">
-        <img class="img-thumbnail" src="http://bootdey.com/img/Content/User_for_snippets.png">
-        <label class="name">
-            <%= item.first_name %><br>
-        </label>
-        <label class="pull-right">            
-            <% if current_user %>
-                <% if item.get_invite_by_frient_id(session[:user_id]) == 1 %>
-                    <a class="btn btn-danger btn-xs glyphicon glyphicon-trash remove-friend" data-url="<%= remove_friend_path() %>" data-id="<%= item.id%>" href="#" title="Remove friend"></a>
-                <% else %>
-                    <a class="btn btn-success btn-xs glyphicon glyphicon-saved add-friend" data-url="<%= add_friend_path() %>" data-id="<%= item.id%>" href="#" title="Add friend"></a>
-                <% end %>
-            <% else %>
-                <a class="btn btn-success btn-xs glyphicon glyphicon-saved" href="<%= signin_path() %>" title="Add friend"></a>
-            <% end %>
-            <% if current_user %>
-            <a class="btn btn-warning  btn-xs glyphicon glyphicon-heart add-favorite" data-url="<%= add_friend_favorite_path()%>" data-id="<%= item.id %>" href="#" title="Favorite"></a>
-            <% else %>
-            <a class="btn btn-success btn-xs glyphicon glyphicon-heart" href="<%= signin_path() %>" title="Favorite"></a>
-            <% end %>
+      <% if @users.count > 0 %>
+        <% @users.each do |item| %>
+          <% status = item.get_status_friend(session[:user_id]) %>
+          <% favorite = item.get_favorite_friend(session[:user_id]) %>
+          <% if status != 2 %>
+          <li href="#" class="list-group-item text-left">
+            <img class="img-thumbnail" src="http://bootdey.com/img/Content/User_for_snippets.png">
+            <label class="name">
+                <a href="<%= profile_path(item)%>"><%= item.first_name %></a> 
+                <br>
+                <%= item.email %><br>
+                <%= item.get_friends_number %> friends <br>
 
-            
-        </label>
-        <div class="break"></div>
-      </li>
+            </label>
+            <label class="pull-right">            
+                <% if current_user %>
+                  <% if status == nil %>
+                    <a class="btn btn-success btn-xs glyphicon glyphicon-plus add-friend" data-url="<%= add_friend_path() %>" data-id="<%= item.id%>" href="#" title="Add friend"></a>
+                  <% elsif status == 0 %>
+                    <a class="btn btn-success btn-xs glyphicon glyphicon-saved update-status-friend" data-status="1" data-url="<%= update_status_friend_path(item) %>" data-id="<%= item.id%>" href="#" title="Accept friend"></a>
+                    <a class="btn btn-danger btn-xs glyphicon glyphicon-remove update-status-friend" data-status="2" data-url="<%= update_status_friend_path(item) %>" data-id="<%= item.id%>" href="#" title="Remove friend"></a>
+                  <% elsif status == 1 %>
+                    <a class="btn btn-danger btn-xs glyphicon glyphicon-remove update-status-friend" data-status="2" data-url="<%= update_status_friend_path(item) %>" data-id="<%= item.id%>" href="#" title="Remove friend"></a>
+                    <% if favorite != nil && favorite == 0 %>
+                      <a class="btn btn-warning  btn-xs glyphicon glyphicon-heart add-favorite" data-url="<%= add_friend_favorite_path()%>" data-id="<%= item.id %>" href="#" title="Favorite"></a>
+                    <% end %>  
+                  <% end %>
+                <% else %>
+                    <a class="btn btn-success btn-xs glyphicon glyphicon-plus add-friend-login" data-id="<%= item.id%>" href="<%= signin_path() %>" title="Add friend"></a>
+                <% end %>
+            </label>
+            <div class="break"></div>
+          </li>
+          <% end %>
+        <% end %>
+          <!-- Pagination -->      
+        <li href="#" class="list-group-item text-center">
+          <%= will_paginate @users, renderer: BootstrapPagination::Rails %>
+        </li>
+      <% else %>
+        <li href="#" class="list-group-item text-left">
+        Not found.
+        </li>
       <% end %>
-        <!-- Pagination -->      
-      <li href="#" class="list-group-item text-center">
-        <%= will_paginate @users, renderer: BootstrapPagination::Rails %>
-      </li>
       <!-- <li href="#" class="list-group-item text-left">
         <a class="btn btn-block btn-primary">
             <i class="glyphicon glyphicon-refresh"></i>

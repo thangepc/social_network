@@ -54,14 +54,14 @@ Rails.application.routes.draw do
   #     resources :products
   #   end
 
-  root to: 'home#index'
+  root to: 'users#list_friends'
   match '/register', to: 'users#signup', via: [:get, :post], as: :signup
   match '/signin', to: 'users#signin', via: [:get, :post], as: :signin
   get '/logout', to: 'users#logout', as: :logout
   get '/find-friends', to: 'users#find_friend', as: :find_friend
   get '/friends', to: 'users#list_friends', as: :friends
   post '/add-friend', to: 'users#add_friend', as: :add_friend
-  post '/remove-friend', to: 'users#remove_friend', as: :remove_friend
+  post '/update-status-friend/:id', to: 'users#update_status_friend', as: :update_status_friend
   post '/add-friend-favorite', to: 'users#add_friend_favorite', as: :add_friend_favorite
   post '/invite-friend', to: 'users#invite_friend', as: :invite_friend
 

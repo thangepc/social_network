@@ -7,7 +7,7 @@
     <div class="useravatar">
       <img alt="" src="/avatar.jpeg">
     </div>
-    <div class="card-info"> <span class="card-title"><%= @user.first_name %></span>
+    <div class="card-info"> <span class="card-title"><%= @user.fullname %></span>
   </div>
 </div>
 <div class="btn-pref btn-group btn-group-justified btn-group-lg" role="group" aria-label="...">
@@ -91,34 +91,36 @@
     <div class="tab-pane fade in" id="tab2">
       <div class="jumbotron list-content">
         <ul class="list-group">
-          <% @friends.each do |object| %>
-            <% item = object.user_friend%>
-          <li href="#" class="list-group-item text-left">
-            <img class="img-thumbnail" src="http://bootdey.com/img/Content/User_for_snippets.png">
-            <label class="name">
-                <%= item.first_name %><br>
-            </label>
-            <label class="pull-right">            
-                <% if current_user %>
-                    <% if item.get_invite_by_frient_id(session[:user_id]) == 1 %>
-                        <a class="btn btn-danger btn-xs glyphicon glyphicon-trash remove-friend" data-url="<%= remove_friend_path() %>" data-id="<%= item.id%>" href="#" title="Remove friend"></a>
-                    <% else %>
-                        <a class="btn btn-success btn-xs glyphicon glyphicon-saved add-friend" data-url="<%= add_friend_path() %>" data-id="<%= item.id%>" href="#" title="Add friend"></a>
-                    <% end %>
-                <% else %>
-                <a class="btn btn-success btn-xs glyphicon glyphicon-saved" href="<%= signin_path() %>" title="Add friend"></a>
-                <% end %>
-                <% if current_user %>
-                <a class="btn btn-warning  btn-xs glyphicon glyphicon-heart add-favorite" data-url="<%= add_friend_favorite_path()%>" data-id="<%= item.id %>" href="#" title="Favorite"></a>
-                <% else %>
-                <a class="btn btn-success btn-xs glyphicon glyphicon-heart" href="<%= signin_path() %>" title="Favorite"></a>
-                <% end %>
-
-                <a class="btn btn-danger  btn-xs glyphicon glyphicon-trash" href="#" title="Delete"></a>
-                <a class="btn btn-info  btn-xs glyphicon glyphicon glyphicon-comment" href="#" title="Send message"></a>
-            </label>
-            <div class="break"></div>
-          </li>
+          <% if @friends.count > 0 %>
+            <% @friends.each do |object| %>
+              <% item = object.user_friend%>
+              <% status = item.get_status_friend(session[:user_id]) %>
+              <% favorite = item.get_favorite_friend(session[:user_id]) %>
+            <li href="#" class="list-group-item text-left">
+              <img class="img-thumbnail" src="http://bootdey.com/img/Content/User_for_snippets.png">
+              <label class="name">
+                  <a href="<%= profile_path(item)%>"><%= item.first_name %></a> 
+                  <br>
+                  <%= item.email %><br>
+                  <%= item.get_friends_number %> friends <br>
+              </label>
+              <label class="pull-right">            
+                  <% if current_user %>
+                    <a class="btn btn-danger btn-xs glyphicon glyphicon-remove update-status-friend" data-status="2" data-url="<%= update_status_friend_path(item) %>" data-id="<%= item.id%>" href="#" title="Remove friend"></a>
+                      <% if favorite != nil && favorite == 0 %>
+                        <a class="btn btn-warning  btn-xs glyphicon glyphicon-heart add-favorite" data-url="<%= add_friend_favorite_path()%>" data-id="<%= item.id %>" href="#" title="Favorite"></a>
+                      <% end %> 
+                  <% else %>
+                    <a class="btn btn-success btn-xs glyphicon glyphicon-plus add-friend-login" data-id="<%= item.id%>" href="<%= signin_path() %>" title="Add friend"></a>
+                  <% end %>
+              </label>
+              <div class="break"></div>
+            </li>
+            <% end %>
+          <% else %>
+            <li href="#" class="list-group-item text-center">
+              Not found
+            </li>
           <% end %>
             <!-- Pagination -->      
           <li href="#" class="list-group-item text-center">
@@ -137,34 +139,34 @@
     <div class="tab-pane fade in" id="tab3">
       <div class="jumbotron list-content">
         <ul class="list-group">
-          <% @friendsRequest.each do |object| %>
-            <% item = object.user%>
-          <li href="#" class="list-group-item text-left">
-            <img class="img-thumbnail" src="http://bootdey.com/img/Content/User_for_snippets.png">
-            <label class="name">
-                <%= item.first_name %><br>
-            </label>
-            <label class="pull-right">            
-                <% if current_user %>
-                    <% if item.get_invite_by_frient_id(session[:user_id]) == 1 %>
-                        <a class="btn btn-danger btn-xs glyphicon glyphicon-trash remove-friend" data-url="<%= remove_friend_path() %>" data-id="<%= item.id%>" href="#" title="Remove friend"></a>
+          <%  if @friendsRequest.count > 0 %>
+            <% @friendsRequest.each do |object| %>
+              <% item = object.user%>
+              <% status = item.get_status_friend(session[:user_id]) %>
+              <% favorite = item.get_favorite_friend(session[:user_id]) %>
+              <li href="#" class="list-group-item text-left">
+                <img class="img-thumbnail" src="http://bootdey.com/img/Content/User_for_snippets.png">
+                <label class="name">
+                    <a href="<%= profile_path(item)%>"><%= item.first_name %></a> 
+                    <br>
+                    <%= item.email %><br>
+                    <%= item.get_friends_number %> friends <br>
+                </label>
+                <label class="pull-right">            
+                    <% if current_user %>
+                      <a class="btn btn-success btn-xs glyphicon glyphicon-saved update-status-friend" data-status="1" data-url="<%= update_status_friend_path(item) %>" data-id="<%= item.id%>" href="#" title="Accept friend"></a>
+                      <a class="btn btn-danger btn-xs glyphicon glyphicon-remove update-status-friend" data-status="2" data-url="<%= update_status_friend_path(item) %>" data-id="<%= item.id%>" href="#" title="Remove friend"></a>
                     <% else %>
-                        <a class="btn btn-success btn-xs glyphicon glyphicon-saved add-friend" data-url="<%= add_friend_path() %>" data-id="<%= item.id%>" href="#" title="Add friend"></a>
+                      <a class="btn btn-success btn-xs glyphicon glyphicon-plus add-friend-login" data-id="<%= item.id%>" href="<%= signin_path() %>" title="Add friend"></a>
                     <% end %>
-                <% else %>
-                <a class="btn btn-success btn-xs glyphicon glyphicon-saved" href="<%= signin_path() %>" title="Add friend"></a>
-                <% end %>
-                <% if current_user %>
-                <a class="btn btn-warning  btn-xs glyphicon glyphicon-heart add-favorite" data-url="<%= add_friend_favorite_path()%>" data-id="<%= item.id %>" href="#" title="Favorite"></a>
-                <% else %>
-                <a class="btn btn-success btn-xs glyphicon glyphicon-heart" href="<%= signin_path() %>" title="Favorite"></a>
-                <% end %>
-
-                <a class="btn btn-danger  btn-xs glyphicon glyphicon-trash" href="#" title="Delete"></a>
-                <a class="btn btn-info  btn-xs glyphicon glyphicon glyphicon-comment" href="#" title="Send message"></a>
-            </label>
-            <div class="break"></div>
-          </li>
+                </label>
+                <div class="break"></div>
+              </li>
+            <% end %>
+          <% else %>
+            <li href="#" class="list-group-item text-center">
+              Not found
+            </li>
           <% end %>
             <!-- Pagination -->      
           <li href="#" class="list-group-item text-center">
@@ -183,34 +185,32 @@
     <div class="tab-pane fade in" id="tab4">
       <div class="jumbotron list-content">
         <ul class="list-group">
-          <% @favorites.each do |object| %>
-            <% item = object.user_friend%>
-          <li href="#" class="list-group-item text-left">
-            <img class="img-thumbnail" src="http://bootdey.com/img/Content/User_for_snippets.png">
-            <label class="name">
-                <%= item.first_name %><br>
-            </label>
-            <label class="pull-right">            
-                <% if current_user %>
-                    <% if item.get_invite_by_frient_id(session[:user_id]) == 1 %>
-                        <a class="btn btn-danger btn-xs glyphicon glyphicon-trash remove-friend" data-url="<%= remove_friend_path() %>" data-id="<%= item.id%>" href="#" title="Remove friend"></a>
+          <% if @favorites.count > 0 %>
+            <% @favorites.each do |object| %>
+              <% item = object.user_friend%>
+              <% status = item.get_status_friend(session[:user_id]) %>
+              <% favorite = item.get_favorite_friend(session[:user_id]) %>
+              <li href="#" class="list-group-item text-left">
+                <img class="img-thumbnail" src="http://bootdey.com/img/Content/User_for_snippets.png">
+                <label class="name">
+                    <a href="<%= profile_path(item)%>"><%= item.first_name %></a> 
+                    <%= item.email %><br>
+                    <%= item.get_friends_number %> friends <br>
+                </label>
+                <label class="pull-right">            
+                    <% if current_user %>
+                        <a class="btn btn-danger btn-xs glyphicon glyphicon-remove update-status-friend" data-status="2" data-url="<%= update_status_friend_path(item) %>" data-id="<%= item.id%>" href="#" title="Remove friend"></a>
                     <% else %>
-                        <a class="btn btn-success btn-xs glyphicon glyphicon-saved add-friend" data-url="<%= add_friend_path() %>" data-id="<%= item.id%>" href="#" title="Add friend"></a>
+                      <a class="btn btn-success btn-xs glyphicon glyphicon-plus add-friend-login" data-id="<%= item.id%>" href="<%= signin_path() %>" title="Add friend"></a>
                     <% end %>
-                <% else %>
-                <a class="btn btn-success btn-xs glyphicon glyphicon-saved" href="<%= signin_path() %>" title="Add friend"></a>
-                <% end %>
-                <% if current_user %>
-                <a class="btn btn-warning  btn-xs glyphicon glyphicon-heart add-favorite" data-url="<%= add_friend_favorite_path()%>" data-id="<%= item.id %>" href="#" title="Favorite"></a>
-                <% else %>
-                <a class="btn btn-success btn-xs glyphicon glyphicon-heart" href="<%= signin_path() %>" title="Favorite"></a>
-                <% end %>
-
-                <a class="btn btn-danger  btn-xs glyphicon glyphicon-trash" href="#" title="Delete"></a>
-                <a class="btn btn-info  btn-xs glyphicon glyphicon glyphicon-comment" href="#" title="Send message"></a>
-            </label>
-            <div class="break"></div>
-          </li>
+                </label>
+                <div class="break"></div>
+              </li>
+            <% end %>
+          <% else %>
+            <li href="#" class="list-group-item text-center">
+              Not found
+            </li>
           <% end %>
             <!-- Pagination -->      
           <li href="#" class="list-group-item text-center">

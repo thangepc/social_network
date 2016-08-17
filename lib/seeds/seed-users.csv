@@ -1,0 +1,16 @@
+name,email,password,address,phone,image
+Ipanema,ipanema@gmail.com,123,Sai Son - Quoc Oai - Ha Noi,0973511241,http://s3.amazonaws.com/codecademy-content/courses/learn-rails/img/beach02.jpg
+Adam,adam@gmail.com,123,5 Trai - Quoc Oai - Ha Noi,0973511242,http://s3.amazonaws.com/codecademy-content/courses/learn-rails/img/beach03.jpg
+Michel,michel@gmail.com,123,Sam Son - Thanh Hoa,0973511243,http://s3.amazonaws.com/codecademy-content/courses/learn-rails/img/beach04.jpg
+Alex,alex@gmail.com,123,Ung hoa - ha noi,0973511244,http://s3.amazonaws.com/codecademy-content/courses/learn-rails/img/history02.jpg
+Maxin,maxin@gmail.com,123,Cau giay - ha noi,0973511245,http://s3.amazonaws.com/codecademy-content/courses/learn-rails/img/beach03.jpg
+Secret,secret@gmail.com,123,ba dinh - Ha Noi,0973511246,http://s3.amazonaws.com/codecademy-content/courses/learn-rails/img/beach04.jpg
+Haha,haha@gmail.com,123,gia lam - Ha Noi,0973511234,http://s3.amazonaws.com/codecademy-content/courses/learn-rails/img/history02.jpg
+KJK,kjk@gmail.com,123,nam tu niem - Ha Noi,0973511223,http://s3.amazonaws.com/codecademy-content/courses/learn-rails/img/beach03.jpg
+LWS,lsws@gmail.com,123,bac tu niem - Ha Noi,0973511254,http://s3.amazonaws.com/codecademy-content/courses/learn-rails/img/beach04.jpg
+HPH,hph@gmail.com,123,gia lam - Ha Noi,0973511265,http://s3.amazonaws.com/codecademy-content/courses/learn-rails/img/history02.jpg
+Alabela,alabela@gmail.com,123,Me tri - Ha Noi,0973511212,http://s3.amazonaws.com/codecademy-content/courses/learn-rails/img/beach03.jpg
+Minium,minium@gmail.com,123,bac tu niem - Ha Noi,0973511276,http://s3.amazonaws.com/codecademy-content/courses/learn-rails/img/beach04.jpg
+Tholak,tholak@gmail.com,123,cau giay - Ha Noi,0973511453,http://s3.amazonaws.com/codecademy-content/courses/learn-rails/img/history02.jpg
+Yamon,yamon@gmail.com,123,Sai Son - Quoc Oai - Ha Noi,0973511672,http://s3.amazonaws.com/codecademy-content/courses/learn-rails/img/beach03.jpg
+Tanoke,tanoke@gmail.com,123,Sai Son - Quoc Oai - Ha Noi,0973511461,http://s3.amazonaws.com/codecademy-content/courses/learn-rails/img/beach04.jpg
