@@ -78,17 +78,18 @@ class User < ActiveRecord::Base
 		if user_id != nil
 
 			if keyQuery != "" && !valueQuery.empty?
-				users = users.where('users.id <> ?', user_id).where(keyQuery, valueQuery).page(params[:page]).order(orderQuery)
+				users = users.where('users.id <> ?', user_id).where(keyQuery, valueQuery).page(params[:page]).group('users.id').order(orderQuery)
 			else
-				users = users.where('users.id <> ?', user_id).page(params[:page]).order(orderQuery)
+				users = users.where('users.id <> ?', user_id).page(params[:page]).group('users.id').order(orderQuery)
 			end
 		else
 			if keyQuery != "" && !valueQuery.empty?
-				users = users.where(keyQuery, valueQuery).page(params[:page]).order(orderQuery)
+				users = users.where(keyQuery, valueQuery).page(params[:page]).group('users.id').order(orderQuery)
 			else
-				users = users.page(params[:page]).order(orderQuery)
+				users = users.page(params[:page]).group('users.id').order(orderQuery)
 			end
 		end
+				# binding.pry
 	end
 
 	# is_accept = 0 => request

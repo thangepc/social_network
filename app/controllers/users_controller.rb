@@ -72,7 +72,7 @@ class UsersController < ApplicationController
 
 	def list_friends
 		@users = User.search(params,session[:user_id])
-		# render :json => @users
+		# render :json => @users.count
 		# return
 	end
 
@@ -144,31 +144,11 @@ class UsersController < ApplicationController
 		end
 	end
 
-	# def remove_friend
-	# 	if params[:id]
-	# 		user = User.find(params[:id])
-	# 		if !user.nil? && session[:user_id]
-	# 			friend = Friend.where('(user_id = ? AND user_friend_id = ?) OR (user_id = ? AND user_friend_id = ?)', session[:user_id], user.id, user.id, session[:user_id]).first
-	# 			if !friend.nil?
-	# 				friend.destroy
-	# 				render :json => {status: 1, message: "Remove friend is successful."}
-	# 			end
-	# 		else
-	# 			render :json => {status: 0, message: "Not found this friend."}
-	# 		end
-	# 	else
-	# 		render :json => {status: 0, message: "Not found this friend."}
-	# 	end
-	# 	return
-	# end
-
 	def add_friend_favorite
 		if params[:id]
 			user = User.find(params[:id])
 			if !user.nil? && session[:user_id]
 				friend = Friend.where('user_id = ? AND user_friend_id = ?', session[:user_id], user.id).first
-				# render :json =>friend
-				# return
 				if !friend.nil?
 					if friend.is_accept == 1
 						if friend.update_column( :is_favorite, 1)
@@ -202,8 +182,6 @@ class UsersController < ApplicationController
 			@user = User.find(params[:id])
 			if session[:user_id] != nil
 				@friends = Friend.where('user_id = ? AND is_accept = ?',params[:id], 1)
-				# render :json => @friends
-				# return
 				if session[:user_id].to_i == params[:id].to_i
 					@friendsRequest = Friend.where('user_friend_id = ? AND is_accept = ?', session[:user_id], 0)
 				end

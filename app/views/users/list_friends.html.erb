@@ -36,7 +36,7 @@
                   <li><a href="#" class="sort-order" data-sort="created_at" data-order="asc">Created ASC</a></li>
                   <li role="separator" class="divider"></li>
                   <li><a href="#" class="sort-order" data-sort="friends" data-order="desc">Friends DESC</a></li>
-                  <li><a href="#" class="sort-order" data-sort="firends" data-order="asc">Firends ASC</a></li>
+                  <li><a href="#" class="sort-order" data-sort="friends" data-order="asc">Friends ASC</a></li>
                   <li role="separator" class="divider"></li>
                   <li><a href="#" class="sort-order" data-sort="favorites" data-order="desc">Favorites DESC</a></li>
                   <li><a href="#" class="sort-order" data-sort="favorites" data-order="asc">Favorites ASC</a></li>
@@ -48,7 +48,6 @@
       <li href="#" class="list-group-item title">
         Your friend zone
       </li>
-      <% if @users.count > 0 %>
         <% @users.each do |item| %>
           <% status = item.get_status_friend(session[:user_id]) %>
           <% favorite = item.get_favorite_friend(session[:user_id]) %>
@@ -91,11 +90,7 @@
         <li href="#" class="list-group-item text-center">
           <%= will_paginate @users, renderer: BootstrapPagination::Rails %>
         </li>
-      <% else %>
-        <li href="#" class="list-group-item text-left">
-        Not found.
-        </li>
-      <% end %>
+      
       <!-- <li href="#" class="list-group-item text-left">
         <a class="btn btn-block btn-primary">
             <i class="glyphicon glyphicon-refresh"></i>
