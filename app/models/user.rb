@@ -10,7 +10,7 @@ class User < ActiveRecord::Base
 	# validates :email, format: { with: /\A([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})\z/i }
 	validates_presence_of :password, :on => :create
 	# validates_length_of :password ,{:minimum => 2, :maximum => 255, :on => :create}
-	validates_strength_of :password, :with => :email, :level => :good
+	validates_strength_of :password, :with => :email, :level => :weak
 	validates_length_of :first_name ,{:minimum => 2, :maximum => 255}
 	validates_length_of :last_name ,{:minimum => 2, :maximum => 255}
 

@@ -7,16 +7,19 @@
 #   Mayor.create(name: 'Emanuel', city: cities.first)
 require 'csv'
 
-# User
+# # User
 csv_user_text = File.read(Rails.root.join('lib', 'seeds', 'users.csv'))
 csv_user = CSV.parse(csv_user_text, :headers => true, :encoding => 'ISO-8859-1')
 csv_user.each do |row|
-  t = User.create(first_name: row['first_name'], last_name: row['last_name'], email: row['email'], password: row[:password], address: row['address'], phone: row[:phone])
-  # t.first_name = row['first_name']
-  # t.last_name = row['last_name']
-  # t.email = row['email']
-  # t.password = row['password']
-  # t.address = row['address']
-  # t.phone = row['phone']
+  t = User.new
   # t.save
+  t.first_name = row['first_name']
+  t.last_name = row['last_name']
+  t.email = row['email']
+  t.password = row['password']
+  t.address = row['address']
+  t.phone = row['phone']
+  t.save
+puts 'SAVED'
 end
+
