@@ -84,7 +84,22 @@ class UsersController < ApplicationController
 				if friend.nil?
 					friend = Friend.new(:user_id => session[:user_id], :user_friend_id => user.id, :is_accept => 0)
 					if friend.save
-						render :json => {status: 1, message: "Add friend is successful."}
+						friend2 = Friend.where('user_id = ? AND user_friend_id = ?', friend.user_friend_id, friend.user_id).first
+						if friend2.nil?
+							friend2 = Friend.new(:user_id => friend.user_friend_id, :user_friend_id => friend.user_id, :is_accept => -1)
+							if friend2.save
+								render :json => {status: 1, message: "Add friend is successful."}
+							else
+								render :json => {status: 0, message: "Error."}
+							end
+						else
+							if friend2.update_column(:is_accept, params[:status])
+								render :json => {status: 1, message: "Add friend is successful."}
+							else
+								render :json => {status: 0, message: "Error."}
+							end
+						end
+						# render :json => {status: 1, message: "Add friend is successful."}
 					end
 				else
 					render :json => {status: 0, message: "This member added to your friend ."}
@@ -151,7 +166,7 @@ class UsersController < ApplicationController
 		if params[:id]
 			user = User.find(params[:id])
 			if !user.nil? && session[:user_id]
-				friend = Friend.where('(user_id = ? AND user_friend_id = ?) OR (user_id = ? AND user_friend_id = ?)', session[:user_id], user.id, user.id, session[:user_id]).first
+				friend = Friend.where('user_id = ? AND user_friend_id = ?', user.id, session[:user_id]).first
 				# render :json =>friend
 				# return
 				if !friend.nil?

@@ -17,8 +17,8 @@
                   <select class="form-control" name="type" id="input-type">
                       <option value="name" <%= params[:type] == "name" ? 'selected="selected"' : '' %> >Name</option>
                       <option value="price" <%= params[:type] == "address" ? 'selected="selected"' : '' %> >Address</option>
-                      <option value="content" <%= params[:type] == "phone" ? 'selected="selected"' : '' %> >Phone</option>
-                      <option value="content" <%= params[:type] == "email" ? 'selected="selected"' : '' %> >Email</option>
+                      <option value="phone" <%= params[:type] == "phone" ? 'selected="selected"' : '' %> >Phone</option>
+                      <option value="email" <%= params[:type] == "email" ? 'selected="selected"' : '' %> >Email</option>
                   </select>
               </div>
               <div class="form-group">
@@ -64,7 +64,7 @@
           <li href="#" class="list-group-item text-left">
             <img class="img-thumbnail" src="http://bootdey.com/img/Content/User_for_snippets.png">
             <label class="name">
-                <a href="<%= profile_path(item)%>"><%= item.first_name %></a> 
+                <a href="<%= profile_path(item)%>"><%= item.fullname %></a> 
                 <br>
                 <%= item.email %><br>
                 <%= item.get_friends_number %> friends <br>
@@ -74,12 +74,14 @@
                 <% if current_user %>
                   <% if status == nil %>
                     <a class="btn btn-success btn-xs glyphicon glyphicon-plus add-friend" data-url="<%= add_friend_path() %>" data-id="<%= item.id%>" href="#" title="Add friend"></a>
+                  <% elsif status == -1 %>
+                    <a class="btn btn-danger btn-xs glyphicon glyphicon-remove update-status-friend" data-status="2" data-url="<%= update_status_friend_path(item) %>" data-id="<%= item.id%>" href="#" title="Remove friend"></a>
                   <% elsif status == 0 %>
                     <a class="btn btn-success btn-xs glyphicon glyphicon-saved update-status-friend" data-status="1" data-url="<%= update_status_friend_path(item) %>" data-id="<%= item.id%>" href="#" title="Accept friend"></a>
                     <a class="btn btn-danger btn-xs glyphicon glyphicon-remove update-status-friend" data-status="2" data-url="<%= update_status_friend_path(item) %>" data-id="<%= item.id%>" href="#" title="Remove friend"></a>
                   <% elsif status == 1 %>
                     <a class="btn btn-danger btn-xs glyphicon glyphicon-remove update-status-friend" data-status="2" data-url="<%= update_status_friend_path(item) %>" data-id="<%= item.id%>" href="#" title="Remove friend"></a>
-                    <% if favorite != nil && favorite == 0 %>
+                    <% if favorite == nil || favorite == 0 %>
                       <a class="btn btn-warning  btn-xs glyphicon glyphicon-heart add-favorite" data-url="<%= add_friend_favorite_path()%>" data-id="<%= item.id %>" href="#" title="Favorite"></a>
                     <% end %>  
                   <% end %>

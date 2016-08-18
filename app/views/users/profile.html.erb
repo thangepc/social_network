@@ -99,7 +99,7 @@
             <li href="#" class="list-group-item text-left">
               <img class="img-thumbnail" src="http://bootdey.com/img/Content/User_for_snippets.png">
               <label class="name">
-                  <a href="<%= profile_path(item)%>"><%= item.first_name %></a> 
+                  <a href="<%= profile_path(item)%>"><%= item.fullname %></a> 
                   <br>
                   <%= item.email %><br>
                   <%= item.get_friends_number %> friends <br>
@@ -107,7 +107,7 @@
               <label class="pull-right">            
                   <% if current_user %>
                     <a class="btn btn-danger btn-xs glyphicon glyphicon-remove update-status-friend" data-status="2" data-url="<%= update_status_friend_path(item) %>" data-id="<%= item.id%>" href="#" title="Remove friend"></a>
-                      <% if favorite != nil && favorite == 0 %>
+                      <% if favorite == nil || favorite == 0 %>
                         <a class="btn btn-warning  btn-xs glyphicon glyphicon-heart add-favorite" data-url="<%= add_friend_favorite_path()%>" data-id="<%= item.id %>" href="#" title="Favorite"></a>
                       <% end %> 
                   <% else %>
@@ -147,7 +147,7 @@
               <li href="#" class="list-group-item text-left">
                 <img class="img-thumbnail" src="http://bootdey.com/img/Content/User_for_snippets.png">
                 <label class="name">
-                    <a href="<%= profile_path(item)%>"><%= item.first_name %></a> 
+                    <a href="<%= profile_path(item)%>"><%= item.fullname %></a> 
                     <br>
                     <%= item.email %><br>
                     <%= item.get_friends_number %> friends <br>
@@ -193,7 +193,7 @@
               <li href="#" class="list-group-item text-left">
                 <img class="img-thumbnail" src="http://bootdey.com/img/Content/User_for_snippets.png">
                 <label class="name">
-                    <a href="<%= profile_path(item)%>"><%= item.first_name %></a> 
+                    <a href="<%= profile_path(item)%>"><%= item.fullname %></a> <br>
                     <%= item.email %><br>
                     <%= item.get_friends_number %> friends <br>
                 </label>
