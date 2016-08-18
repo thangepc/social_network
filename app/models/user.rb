@@ -142,7 +142,7 @@ class User < ActiveRecord::Base
 	end
 	def get_favorite_friend(user_id)
 		if user_id != nil
-			friend = self.friends.where('user_friend_id = ?', user_id).first
+			friend = Friend.where('user_id = ? AND user_friend_id = ?', user_id, self.id).first
 			if !friend.nil?
 				friend.is_favorite
 			end

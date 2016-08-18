@@ -106,9 +106,9 @@
               </label>
               <label class="pull-right">            
                   <% if current_user %>
-                    <a class="btn btn-danger btn-xs glyphicon glyphicon-remove update-status-friend" data-status="2" data-url="<%= update_status_friend_path(item) %>" data-id="<%= item.id%>" href="#" title="Remove friend"></a>
+                    <a class="btn btn-danger btn-xs glyphicon glyphicon-remove update-status-friend" data-remove="true" data-status="2" data-url="<%= update_status_friend_path(item) %>" data-id="<%= item.id%>" href="#" title="Remove friend"></a>
                       <% if favorite == nil || favorite == 0 %>
-                        <a class="btn btn-warning  btn-xs glyphicon glyphicon-heart add-favorite" data-url="<%= add_friend_favorite_path()%>" data-id="<%= item.id %>" href="#" title="Favorite"></a>
+                        <a class="btn btn-warning  btn-xs glyphicon glyphicon-heart add-favorite" data-remove-item="true" data-url="<%= add_friend_favorite_path()%>" data-id="<%= item.id %>" href="#" title="Favorite"></a>
                       <% end %> 
                   <% else %>
                     <a class="btn btn-success btn-xs glyphicon glyphicon-plus add-friend-login" data-id="<%= item.id%>" href="<%= signin_path() %>" title="Add friend"></a>
@@ -154,8 +154,9 @@
                 </label>
                 <label class="pull-right">            
                     <% if current_user %>
-                      <a class="btn btn-success btn-xs glyphicon glyphicon-saved update-status-friend" data-status="1" data-url="<%= update_status_friend_path(item) %>" data-id="<%= item.id%>" href="#" title="Accept friend"></a>
-                      <a class="btn btn-danger btn-xs glyphicon glyphicon-remove update-status-friend" data-status="2" data-url="<%= update_status_friend_path(item) %>" data-id="<%= item.id%>" href="#" title="Remove friend"></a>
+                      <a class="btn btn-success btn-xs glyphicon glyphicon-saved update-status-friend" data-favorite-id="#favorite-item-<%= item.id%>" data-status="1" data-url="<%= update_status_friend_path(item) %>" data-id="<%= item.id%>" href="#" title="Accept friend"></a>
+                      <a class="btn btn-danger btn-xs glyphicon glyphicon-remove update-status-friend" data-remove="true" data-status="2" data-url="<%= update_status_friend_path(item) %>" data-id="<%= item.id%>" href="#" title="Remove friend"></a>
+                      <a class="btn btn-warning  btn-xs glyphicon glyphicon-heart add-favorite hide" data-remove-item="true" id="favorite-item-<%= item.id%>" data-url="<%= add_friend_favorite_path()%>" data-id="<%= item.id %>" href="#" title="Favorite"></a>
                     <% else %>
                       <a class="btn btn-success btn-xs glyphicon glyphicon-plus add-friend-login" data-id="<%= item.id%>" href="<%= signin_path() %>" title="Add friend"></a>
                     <% end %>
@@ -199,7 +200,7 @@
                 </label>
                 <label class="pull-right">            
                     <% if current_user %>
-                        <a class="btn btn-danger btn-xs glyphicon glyphicon-remove update-status-friend" data-status="2" data-url="<%= update_status_friend_path(item) %>" data-id="<%= item.id%>" href="#" title="Remove friend"></a>
+                        <a class="btn btn-danger btn-xs glyphicon glyphicon-remove update-status-friend" data-remove="true" data-status="2" data-url="<%= update_status_friend_path(item) %>" data-id="<%= item.id%>" href="#" title="Remove friend"></a>
                     <% else %>
                       <a class="btn btn-success btn-xs glyphicon glyphicon-plus add-friend-login" data-id="<%= item.id%>" href="<%= signin_path() %>" title="Add friend"></a>
                     <% end %>

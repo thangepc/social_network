@@ -166,7 +166,7 @@ class UsersController < ApplicationController
 		if params[:id]
 			user = User.find(params[:id])
 			if !user.nil? && session[:user_id]
-				friend = Friend.where('user_id = ? AND user_friend_id = ?', user.id, session[:user_id]).first
+				friend = Friend.where('user_id = ? AND user_friend_id = ?', session[:user_id], user.id).first
 				# render :json =>friend
 				# return
 				if !friend.nil?

@@ -1,14 +1,6 @@
 <!--Projects Row -->
 <div class="row">
-     <div class="header">
-    <h3 class="text-muted prj-name">
-        <span class="fa fa-users fa-2x principal-title"></span>
-        Friend zone
-    </h3>
-  </div>
-
-  
-  <div class="jumbotron list-content">
+  <div class="list-content" style="padding-top: 60px;">
     <div class="row" style="margin: 10px 0px;">
       <div class="col-sm-10">
           <form class="form-inline" id="frmSearch">
@@ -73,16 +65,18 @@
             <label class="pull-right">            
                 <% if current_user %>
                   <% if status == nil %>
-                    <a class="btn btn-success btn-xs glyphicon glyphicon-plus add-friend" data-url="<%= add_friend_path() %>" data-id="<%= item.id%>" href="#" title="Add friend"></a>
+                    <a class="btn btn-success btn-xs glyphicon glyphicon-plus add-friend" data-remove-id="#remove-item-<%= item.id%>" data-url="<%= add_friend_path() %>" data-id="<%= item.id%>" href="#" title="Add friend"></a>
+                    <a class="btn btn-danger btn-xs glyphicon glyphicon-remove update-status-friend hide" id="remove-item-<%= item.id%>" data-status="2" data-url="<%= update_status_friend_path(item) %>" data-id="<%= item.id%>" href="#" title="Remove friend"></a>
                   <% elsif status == -1 %>
-                    <a class="btn btn-danger btn-xs glyphicon glyphicon-remove update-status-friend" data-status="2" data-url="<%= update_status_friend_path(item) %>" data-id="<%= item.id%>" href="#" title="Remove friend"></a>
+                    <a class="btn btn-danger btn-xs glyphicon glyphicon-remove update-status-friend" data-remove="true" data-status="2" data-url="<%= update_status_friend_path(item) %>" data-id="<%= item.id%>" href="#" title="Remove friend"></a>
                   <% elsif status == 0 %>
-                    <a class="btn btn-success btn-xs glyphicon glyphicon-saved update-status-friend" data-status="1" data-url="<%= update_status_friend_path(item) %>" data-id="<%= item.id%>" href="#" title="Accept friend"></a>
-                    <a class="btn btn-danger btn-xs glyphicon glyphicon-remove update-status-friend" data-status="2" data-url="<%= update_status_friend_path(item) %>" data-id="<%= item.id%>" href="#" title="Remove friend"></a>
+                    <a class="btn btn-success btn-xs glyphicon glyphicon-saved update-status-friend" data-favorite-id="#favorite-item-<%= item.id%>" data-status="1" data-url="<%= update_status_friend_path(item) %>" data-id="<%= item.id%>" href="#" title="Accept friend"></a>
+                    <a class="btn btn-danger btn-xs glyphicon glyphicon-remove update-status-friend" data-remove="true" data-status="2" data-url="<%= update_status_friend_path(item) %>" data-id="<%= item.id%>" href="#" title="Remove friend"></a>
+                    <a class="btn btn-warning  btn-xs glyphicon glyphicon-heart add-favorite hide" data-remove-item="true" id="favorite-item-<%= item.id%>" data-url="<%= add_friend_favorite_path()%>" data-id="<%= item.id %>" href="#" title="Favorite"></a>
                   <% elsif status == 1 %>
-                    <a class="btn btn-danger btn-xs glyphicon glyphicon-remove update-status-friend" data-status="2" data-url="<%= update_status_friend_path(item) %>" data-id="<%= item.id%>" href="#" title="Remove friend"></a>
+                    <a class="btn btn-danger btn-xs glyphicon glyphicon-remove update-status-friend" data-remove="true" data-status="2" data-url="<%= update_status_friend_path(item) %>" data-id="<%= item.id%>" href="#" title="Remove friend"></a>
                     <% if favorite == nil || favorite == 0 %>
-                      <a class="btn btn-warning  btn-xs glyphicon glyphicon-heart add-favorite" data-url="<%= add_friend_favorite_path()%>" data-id="<%= item.id %>" href="#" title="Favorite"></a>
+                      <a class="btn btn-warning  btn-xs glyphicon glyphicon-heart add-favorite" data-remove-item="true" data-url="<%= add_friend_favorite_path()%>" data-id="<%= item.id %>" href="#" title="Favorite"></a>
                     <% end %>  
                   <% end %>
                 <% else %>

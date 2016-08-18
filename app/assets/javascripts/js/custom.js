@@ -17,15 +17,33 @@ $(document).ready(function(){
 
     $('body').on('click', '.update-status-friend', function(e) {
         e.preventDefault();
-        var status = $(this).attr('data-status');
-        var url = $(this).attr('data-url');
+        var object = $(this);
+        var status = object.attr('data-status');
+        var url = object.attr('data-url');
+        var favoriteId = object.attr('data-favorite-id');
+        var dataRemove = object.attr('data-remove');
+        var dataRemoveItem = object.attr('data-remove-item');
+
         if (typeof status != 'undefined' && typeof url != 'undefined') {
             $.ajax({
                 url: url,
                 type: 'POST',
                 data: {status: status},
                 success: function(result){
-                    console.log(result);
+                    if (result.status == 1) {
+                        if (typeof favoriteId != 'undefined') {
+                            object.addClass('hide');
+                            $(favoriteId).removeClass('hide');
+                        }
+                        if (typeof dataRemove != 'undefined') {
+                            object.parents('li').remove();
+                        }
+
+                        if (typeof dataRemoveItem != 'undefined') {
+                            object.remove();
+                        }
+                        showNotification('a','Info', 'success', result.message);
+                    }
                 }
             })
         }
@@ -100,13 +118,18 @@ $(document).ready(function(){
         var object = $(this);
         var url = object.attr('data-url');
         var id = object.attr('data-id');
+        var removeId = object.attr('data-remove-id');
         if (typeof url !== 'undefined' && typeof id !== 'undefined') {
             $.ajax({
                 type: "POST",
                 url: url,
                 data: {id: id},
                 success: function(result) {
-                    console.log(result);
+                    if(result.status == 1) {
+                        object.addClass('hide');
+                        $(removeId).removeClass('hide').addClass('show');
+                        showNotification('a','Info', 'success', result.message);
+                    }
                 }
             })
         }
@@ -117,13 +140,19 @@ $(document).ready(function(){
         var object = $(this);
         var url = object.attr('data-url');
         var id = object.attr('data-id');
+        var removeItem = object.attr('data-remove-item');
         if (typeof url !== 'undefined' && typeof id !== 'undefined') {
             $.ajax({
                 type: "POST",
                 url: url,
                 data: {id: id},
                 success: function(result) {
-                    console.log(result);
+                    if(result.status == 1) {
+                        if (typeof removeItem != 'undefined') {
+                            object.remove();
+                        }
+                        showNotification('a','Info', 'success', result.message);
+                    }
                 }
             })
         }
@@ -165,3 +194,49 @@ $(document).ready(function(){
 
 
 });
+
+function showNotification(object, title, type, message) {
+    if (typeof object == 'undefined') {
+        object = '#message-notification';
+    }
+
+    if (typeof title == 'undefined') {
+        title = 'Information';
+    }
+
+    if (typeof type == 'undefined') {
+        type = 'success';
+    }
+
+    if (typeof message == 'undefined') {
+        message = 'Message';
+    }
+
+    $.notify({
+        title: title,
+        message: message},{
+        type: type,
+        animate: {
+            enter: 'animated fadeInDown',
+            exit: 'animated fadeOutUp'
+        },
+        placement: {
+            from: "top",
+            align: "right"
+        },
+        template: '<div data-notify="container" class="col-xs-11 col-sm-3 alert alert-{0}" role="alert">' +
+        '<button type="button" aria-hidden="true" class="close" data-notify="dismiss">×</button>' +
+        '<span data-notify="icon"></span> ' +
+        '<span data-notify="title">{1}</span> ' +
+        '<span data-notify="message">{2}</span>' +
+        '<div class="progress" data-notify="progressbar">' +
+            '<div class="progress-bar progress-bar-{0}" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0%;"></div>' +
+        '</div>' +
+        '<a href="{3}" target="{4}" data-notify="url"></a>' +
+    '</div>' 
+    });
+    // var messageNotification = $('#message-notification');
+    // if (messageNotification.length) {
+        
+    // }
+}
