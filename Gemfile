@@ -37,6 +37,20 @@ gem 'pry-rails', :group => :development
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug'
+  gem 'rspec-rails', '~> 3.5'
+
+  gem 'capybara'
+  # gem 'chromedriver-helper' # helps with using Chrome in feature specs
+  gem 'factory_girl_rails', '~> 4.5'
+  gem 'pry'
+  gem 'pry-rails'
+  gem 'pry-rescue'
+  gem 'pry-stack_explorer'
+  gem 'puffing-billy'
+  gem 'selenium-webdriver' # used by JavaScript-dependent feature specs (`js: true`)
+  gem 'spring' # Spring background-runs app in dev for speed
+  gem 'spring-commands-rspec' # Enable Spring for RSpec
+  gem 'faker'
 end
 
 group :development do
@@ -47,3 +61,11 @@ group :development do
   gem 'spring'
 end
 
+group :test do
+  gem 'database_cleaner'
+  gem 'email_spec'
+  gem 'poltergeist' # helps with using PhantomJS headless browser in feature specs
+  gem 'shoulda-matchers', '3.0.1'
+  gem 'vcr'
+  gem 'webmock'
+end
